@@ -70,7 +70,7 @@ export default function SignUp() {
             className="rounded w-full mt-4 text-white bg-slate-700 p-2"
             onChange={handleChange}
           />
-          <button type="submit" className="rounded p-2 bg-cyan-400 mt-5 w-100">
+          <button type="submit" className="rounded p-2 bg-slate-700 mt-5 w-100 hover:bg-slate-600">
             Sign up
           </button>
           <h1 className="text-red-700 mt-5">{errorMsg}</h1>
