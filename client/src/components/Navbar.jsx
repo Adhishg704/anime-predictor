@@ -12,7 +12,7 @@ export default function Navbar() {
         <Link to = "/">
           <span className='font-mono text-gray-300 ml-10'>About</span>
         </Link>
-        <Link to = "/">
+        <Link to = "/login">
           <span className='font-mono text-gray-300 ml-10'>Login</span>
         </Link>
         <Link to = "/signup">

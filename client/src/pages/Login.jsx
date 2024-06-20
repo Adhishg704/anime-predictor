@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function SignUp() {
+export default function Login() {
   const [formData, setFormData] = useState({});
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function SignUp() {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:3000/api/v1/user/signup",
+        "http://localhost:3000/api/v1/user/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -43,7 +43,7 @@ export default function SignUp() {
     <div className="flex min-h-screen bg-slate-700">
       <div className="bg-slate-800 w-11/12 h-5/6 md:w-3/4 md:h-3/4 lg:w-1/2 lg:h-1/2 text-white p-8 font-mono ml-auto mr-auto mt-10">
         <h1 className="font-mono text-center text-2xl font-bold">
-          Sign up to Anime-Predictor
+          Login
         </h1>
         <form
           onSubmit={handleSubmit}
