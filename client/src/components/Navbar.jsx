@@ -15,7 +15,7 @@ export default function Navbar() {
         <Link to = "/">
           <span className='font-mono text-gray-300 ml-10'>Login</span>
         </Link>
-        <Link to = "/">
+        <Link to = "/signup">
           <span className='font-mono text-white ml-10 p-2 border border-white'>Sign up</span>
         </Link>
     </div>

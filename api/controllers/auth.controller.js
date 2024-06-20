@@ -1,7 +1,5 @@
 import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
-import { errorGenerator } from "../utils/error.js";
-
 
 export const signUp = async (req, res, next) => {
     try {
@@ -14,10 +12,10 @@ export const signUp = async (req, res, next) => {
         });
         const existingUser = await User.findOne({email});
         if(existingUser) {
-            next(errorGenerator(401, "User already registered"));
+            return res.status(401).json({errorMsg: "User already registered"});
         }
         await newUser.save();
-        res.json("Signup successful");
+        return res.status(200).json("Signup successful");
     } catch (error) {
         console.log(error);
     }
