@@ -4,8 +4,7 @@ export default function Recommend() {
   const [value, setValue] = useState("");
 
   const handleSubmit = () => {
-    // Handle submission logic here
-    console.log(value);
+    
   };
 
   return (
@@ -14,23 +13,23 @@ export default function Recommend() {
         Hello
       </div>
       <div className="p-4 flex items-center justify-between bg-slate-800">
-      <h3 className="text-gray-500 text-3xl font-mono">
-        Recommend me an anime in which
-      </h3>
-      <textarea
-        type="text"
-        className="bg-slate-700 font-mono text-white text-2xl p-3 border-none outline-none w-full rounded-full"
-        placeholder="Enter your prompt..."
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-      <button
-        className="bg-slate-700 font-mono text-white text-2xl p-4 rounded-full hover:bg-slate-600 transition duration-200 ml-5"
-        onClick={handleSubmit}
-      >
-        Recommend
-      </button>
-    </div>
+        <h3 className="text-gray-500 text-3xl font-mono">
+          Enter anime to be analyzed
+        </h3>
+        <textarea
+          type="text"
+          className="bg-slate-700 font-mono text-white text-2xl p-3 border-none outline-none w-full rounded-full"
+          placeholder="Enter your prompt..."
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <button
+          className="bg-slate-700 font-mono text-white text-2xl p-4 rounded-full hover:bg-slate-600 transition duration-200 ml-5"
+          onClick={handleSubmit}
+        >
+          Analyze
+        </button>
+      </div>
     </div>
   );
 }

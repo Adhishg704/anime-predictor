@@ -43,7 +43,7 @@ export default function SignUp() {
     <div className="flex min-h-screen bg-slate-700">
       <div className="bg-slate-800 w-11/12 h-5/6 md:w-3/4 md:h-3/4 lg:w-1/2 lg:h-1/2 text-white p-8 font-mono ml-auto mr-auto mt-10">
         <h1 className="font-mono text-center text-2xl font-bold">
-          Sign up to Anime-Predictor
+          Sign up to Anime-Analyzer
         </h1>
         <form
           onSubmit={handleSubmit}
