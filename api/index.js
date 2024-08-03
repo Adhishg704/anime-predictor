@@ -2,6 +2,7 @@ import "dotenv/config.js"
 import express from "express";
 import { connectToDatabase } from "./utils/connectionDB.js";
 import userRouter from "./routes/user.route.js";
+import scrapeRouter from "./routes/scraper.route.js";
 import cors from "cors";
 
 const app = express();
@@ -17,6 +18,8 @@ app.use(cors({
 }));
 
 app.use("/api/v1/user/", userRouter);
+
+app.use("/api/v1/scrape/", scrapeRouter);
 
 async function startServer() {
     try {
