@@ -9,68 +9,7 @@ export default function Recommend() {
   const [reviewTitles, setReviewTitles] = useState([]);
 
   const handleSubmit = async () => {
-    try {
-        setLoading(true);
-        setAnilistURL("");
-        setReviewTitles([]);
-        setErrorMsg("");
-
-        const response = await fetch("http://localhost:3000/api/v1/get-anilist-url", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ anime_title: animeName }),
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            setErrorMsg(errorData.error || "Unable to get response");
-            setLoading(false);
-            return;
-        }
-
-        const data = await response.json();
-        setAnilistURL(data.anilist_url || "No URL found");
-        getReviews(data.anilist_url);
-    } catch (error) {
-        setErrorMsg("An error occurred: " + error.message);
-    } finally {
-        setLoading(false);
-    }
-};
-
-  const getReviews = async (url) => {
-    try {
-      setLoadingReviews(true);
-      setErrorMsg("");
-      const anilistReviewsURL = url + "/reviews";
-
-      const response = await fetch(
-        "http://localhost:3000/api/v1/scrape/get-review-titles",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ reviewsLink: anilistReviewsURL }),
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        setErrorMsg(errorData.error || "Unable to get response");
-        setLoadingReviews(false);
-        return;
-      }
-
-      const data = await response.json();
-      setReviewTitles(data.reviewTitles || []);
-    } catch (error) {
-      setErrorMsg("An error occurred: " + error.message);
-    } finally {
-      setLoadingReviews(false);
-    }
+    
   };
 
   return (
