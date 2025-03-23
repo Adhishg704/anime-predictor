@@ -34,6 +34,8 @@ def analyze(request):
                             name {
                                 full
                             }
+                            favourites
+                            gender
                         }
                     }
                 }
