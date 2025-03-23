@@ -41,6 +41,7 @@ def analyze(request):
                     nodes {
                         rating
                         score
+                        summary
                         body
                         user {
                             name
