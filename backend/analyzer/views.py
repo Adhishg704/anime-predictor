@@ -37,7 +37,7 @@ def analyze(request):
                         amount
                     }
                 }
-                characters(perPage: 10) {
+                characters(sort: FAVOURITES_DESC) {
                     edges {
                         node {
                             name {
