@@ -20,6 +20,14 @@ def analyze(request):
                 title {
                     romaji
                 }
+                studios {
+                    edges {
+                        node {
+                            name
+                            isAnimationStudio
+                        }
+                    }
+                }
                 averageScore
                 popularity
                 stats {
