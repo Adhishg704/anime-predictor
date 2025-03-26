@@ -32,22 +32,22 @@ export function AnimeSentimentAnalyzer() {
 
   const loadAnimeInfo = async () => {
     setLoadingAnimeData(true);
-  
+
     try {
       const response = await fetch("http://127.0.0.1:8000/api/analyze/", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ anime: animeInput })
+        body: JSON.stringify({ anime: animeInput }),
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to fetch anime data");
       }
-  
+
       const data = await response.json();
-  
+
       setAnimeInfo(data.data.Media);
     } catch (error) {
       console.error("Error fetching anime data:", error);
@@ -70,7 +70,7 @@ export function AnimeSentimentAnalyzer() {
         <LoadingIndicator loading={loading} />
         <ErrorMessage errorMsg={errorMsg} />
         <AnilistURLDisplay anilistURL={anilistURL} />
-        <AnimeInfo anime = {animeInfo} loading = {loadingAnimeData} />
+        <AnimeInfo anime={animeInfo} loading={loadingAnimeData} />
       </div>
       <InputSection
         animeInput={animeInput}
