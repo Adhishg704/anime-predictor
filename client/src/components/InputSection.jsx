@@ -1,8 +1,8 @@
 import React from "react";
 
 export default function InputSection({
-  animeName,
-  setAnimeName,
+  animeInput,
+  setAnimeInput,
   handleKeyDown,
   handleSubmit,
 }) {
@@ -15,8 +15,8 @@ export default function InputSection({
         type="text"
         className="bg-slate-600 font-mono text-white text-lg p-3 w-full rounded-xl border border-gray-500 focus:border-blue-400 outline-none"
         placeholder="Enter anime name..."
-        value={animeName}
-        onChange={(e) => setAnimeName(e.target.value)}
+        value={animeInput}
+        onChange={(e) => setAnimeInput(e.target.value)}
         onKeyDown={handleKeyDown}
       />
       <button

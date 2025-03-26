@@ -5,13 +5,13 @@ import AnilistURLDisplay from "../components/AnilistURLDisplay";
 import InputSection from "../components/InputSection";
 
 export function AnimeSentimentAnalyzer() {
-  const [animeName, setAnimeName] = useState("");
+  const [animeInput, setAnimeInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [anilistURL, setAnilistURL] = useState("");
 
   const handleSubmit = async () => {
-    if (!animeName.trim()) {
+    if (!animeInput.trim()) {
       setErrorMsg("Please enter an anime name!");
       return;
     }
@@ -20,7 +20,7 @@ export function AnimeSentimentAnalyzer() {
     setAnilistURL("");
 
     setTimeout(() => {
-      setAnilistURL(`https://anilist.co/search/anime?search=${animeName}`);
+      setAnilistURL(`https://anilist.co/search/anime?search=${animeInput}`);
       setLoading(false);
     }, 1500);
   };
@@ -40,8 +40,8 @@ export function AnimeSentimentAnalyzer() {
         <AnilistURLDisplay anilistURL={anilistURL} />
       </div>
       <InputSection
-        animeName={animeName}
-        setAnimeName={setAnimeName}
+        animeInput={animeInput}
+        setAnimeInput={setAnimeInput}
         handleKeyDown={handleKeyDown}
         handleSubmit={handleSubmit}
       />
