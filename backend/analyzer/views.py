@@ -18,6 +18,7 @@ def analyze(request):
             Media(search: $animeName, type: ANIME) {
                 id
                 title {
+                    english
                     romaji
                 }
                 studios {

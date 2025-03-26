@@ -10,13 +10,13 @@ export default function AnimeInfo({ anime, loading }) {
     );
   }
 
-  if (!anime || !anime.title || !anime.title.romaji) {
+  if (!anime || !anime.title) {
     return null;
   }
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gray-900 text-white rounded-xl shadow-lg mt-4">
-      <h1 className="text-3xl font-bold text-center mb-4">{anime.title.romaji}</h1>
+      <h1 className="text-3xl font-bold text-center mb-4">{anime.title.english}</h1>
       <p className="text-center text-gray-400 text-lg">
         Studio: {anime.studios.edges
         .filter((studio) => studio.node.isAnimationStudio)
