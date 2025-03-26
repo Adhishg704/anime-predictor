@@ -44,6 +44,10 @@ def analyze(request):
                             }
                             favourites
                             gender
+                            image {
+                                large
+                                medium
+                            }
                         }
                     }
                 }
