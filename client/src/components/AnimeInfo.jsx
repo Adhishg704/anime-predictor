@@ -2,6 +2,7 @@ import React from "react";
 import AverageScore from "./AnimeInfo/AverageScore";
 import Characters from "./AnimeInfo/Characters";
 import ScoreDistributionChart from "./AnimeInfo/ScoreDistributionChart";
+import GenderPieChart from "./AnimeInfo/CharacterGenderFavouriteChart";
 
 export default function AnimeInfo({ anime, loading }) {
   if (loading) {
@@ -34,6 +35,8 @@ export default function AnimeInfo({ anime, loading }) {
       <ScoreDistributionChart anime={anime} />
 
       <Characters anime={anime} />
+
+      <GenderPieChart anime={anime} />
     </div>
   );
 }
