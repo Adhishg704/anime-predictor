@@ -52,17 +52,6 @@ def analyze(request):
                         }
                     }
                 }
-                reviews(sort: RATING_DESC, perPage: 20) {
-                    nodes {
-                        rating
-                        score
-                        summary
-                        body
-                        user {
-                            name
-                        }
-                    }
-                }
             }
         }
         """

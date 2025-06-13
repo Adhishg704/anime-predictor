@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
+from .views import getAnimeDetails
 
 urlpatterns = [
-    path('analyze/', views.analyze, name = 'analyze')
+    path('getAnimeMetadata/', getAnimeDetails.analyze, name = 'analyze')
 ]
