@@ -5,89 +5,32 @@ import AnilistURLDisplay from "../components/AnilistURLDisplay";
 import InputSection from "../components/InputSection";
 import AnimeInfo from "../components/AnimeInfo";
 
+import { useAnimeData } from "../../hooks/useAnimeData.js";
+
 export function AnimeSentimentAnalyzer() {
   const [animeInput, setAnimeInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [loadingAnimeData, setLoadingAnimeData] = useState(false);
-  const [animeInfo, setAnimeInfo] = useState({});
-  const [animeReviews, setanimeReviews] = useState([]);
-  const [errorMsg, setErrorMsg] = useState("");
   const [anilistURL, setAnilistURL] = useState("");
+
+  const {
+    animeInfo,
+    animeReviews,
+    animeSummaries,
+    errorMsg,
+    loadingAnimeData,
+    loadAllAnimeData,
+  } = useAnimeData();
 
   const handleSubmit = async () => {
     if (!animeInput.trim()) {
-      setErrorMsg("Please enter an anime name!");
       return;
     }
-    setErrorMsg("");
+
     setLoading(true);
-    setAnilistURL("");
+    setAnilistURL(`https://anilist.co/search/anime?search=${animeInput}`);
 
-    setTimeout(() => {
-      setAnilistURL(`https://anilist.co/search/anime?search=${animeInput}`);
-      setLoading(false);
-    }, 1500);
-
-    await loadAnimeInfo();
-    const animeReviewsObtained = await loadAnimeReviews();
-    setanimeReviews(animeReviewsObtained);
-  };
-
-  const loadAnimeInfo = async () => {
-    setLoadingAnimeData(true);
-
-    try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/api/getAnimeMetadata/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ anime: animeInput }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch anime data");
-      }
-
-      const data = await response.json();
-
-      setAnimeInfo(data.data.Media);
-    } catch (error) {
-      console.error("Error fetching anime data:", error);
-      setErrorMsg("Failed to load anime data. Please try again.");
-    } finally {
-      setLoadingAnimeData(false);
-    }
-  };
-
-  const loadAnimeReviews = async () => {
-    try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/api/getAnimeReviews/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ anime: animeInput }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch anime data");
-      }
-
-      const data = await response.json();
-      return data.data.Media.reviews;
-    } catch (error) {
-      console.error("Error fetching anime data:", error);
-      setErrorMsg("Failed to load anime data. Please try again.");
-    } finally {
-      setLoadingAnimeData(false);
-    }
+    await loadAllAnimeData(animeInput);
+    setLoading(false);
   };
 
   const handleKeyDown = (e) => {
