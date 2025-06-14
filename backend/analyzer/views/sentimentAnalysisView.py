@@ -9,7 +9,7 @@ from analyzer.utils import preprocess
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '../../.env'))
 
 HF_TOKEN = os.getenv("HF_TOKEN")
-API_URL = "https://api-inference.huggingface.co/models/sshleifer/distilbart-cnn-12-6"
+SUMMARY_API_URL = "https://api-inference.huggingface.co/models/sshleifer/distilbart-cnn-12-6"
 
 headers = {
     "Authorization": f"Bearer {HF_TOKEN}"
@@ -91,13 +91,23 @@ def analyzeSentiment(request):
 
 
 def summarize_text(text):
-    response = requests.post(
-        API_URL,
-        headers=headers,
-        json={"inputs": text}
-    )
+    try:
+        response = requests.post(
+            SUMMARY_API_URL ,
+            headers=headers,
+            json={"inputs": text}
+        )
 
-    if response.status_code == 200:
-        return response.json()[0]['summary_text']
-    else:
-        return "Summary failed."
+        if response.status_code == 200:
+            return response.json()[0]['summary_text']
+        else:
+            print(f"Request failed with status {response.status_code}")
+            return "Summary failed."
+    
+    except requests.exceptions.RequestException as e:
+        print(f"Request exception occurred: {e}")
+        return "Summary failed due to request error."
+
+    except Exception as e:
+        print(f"Unexpected error occurred: {e}")
+        return "Summary failed due to unknown error."

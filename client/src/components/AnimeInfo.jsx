@@ -3,8 +3,9 @@ import AverageScore from "./AnimeInfo/AverageScore";
 import Characters from "./AnimeInfo/Characters";
 import ScoreDistributionChart from "./AnimeInfo/ScoreDistributionChart";
 import GenderPieChart from "./AnimeInfo/CharacterGenderFavouriteChart";
+import ReviewsSection from "./AnimeInfo/ReviewsSection";
 
-export default function AnimeInfo({ anime, loading }) {
+export default function AnimeInfo({ animeMetadata, animeReviews, animeSummaries, loading }) {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto p-6 bg-gray-900 text-white rounded-xl shadow-lg text-center">
@@ -13,30 +14,32 @@ export default function AnimeInfo({ anime, loading }) {
     );
   }
 
-  if (!anime || !anime.title) {
+  if (!animeMetadata || !animeMetadata.title) {
     return null;
   }
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gray-900 text-white rounded-xl shadow-lg mt-4">
       <h1 className="text-3xl font-bold text-center mb-4">
-        {anime.title.english}
+        {animeMetadata.title.english}
       </h1>
       <p className="text-center text-gray-400 text-lg">
         Studio:{" "}
-        {anime.studios.edges
+        {animeMetadata.studios.edges
           .filter((studio) => studio.node.isAnimationStudio)
           .map((studio) => studio.node.name)
           .join(", ") || "Unknown"}
       </p>
 
-      <AverageScore anime={anime} />
+      <AverageScore anime={animeMetadata} />
 
-      <ScoreDistributionChart anime={anime} />
+      <ScoreDistributionChart anime={animeMetadata} />
 
-      <Characters anime={anime} />
+      <Characters anime={animeMetadata} />
 
-      <GenderPieChart anime={anime} />
+      <GenderPieChart anime={animeMetadata} />
+
+      <ReviewsSection animeReviews={animeReviews.nodes} animeSummaries={animeSummaries} />
     </div>
   );
 }

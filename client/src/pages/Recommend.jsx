@@ -46,7 +46,7 @@ export function AnimeSentimentAnalyzer() {
         <LoadingIndicator loading={loading} />
         <ErrorMessage errorMsg={errorMsg} />
         <AnilistURLDisplay anilistURL={anilistURL} />
-        <AnimeInfo anime={animeInfo} loading={loadingAnimeData} />
+        <AnimeInfo animeMetadata={animeInfo} animeReviews={animeReviews} animeSummaries = {animeSummaries} loading={loadingAnimeData}  />
       </div>
       <InputSection
         animeInput={animeInput}
