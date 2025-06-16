@@ -18,7 +18,7 @@ export const fetchAnimeReviews = async (animeName) => {
 
   if (!response.ok) throw new Error("Failed to fetch anime reviews");
   return await response.json();
-};
+}; 
 
 export const fetchReviewSummaries = async (reviews) => {
   const response = await fetch(

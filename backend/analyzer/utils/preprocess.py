@@ -11,10 +11,8 @@ def preprocess_review(review_text):
     review_text = review_text.strip()
 
     review_length = len(review_text)
-    if review_length > 3500:
-        half = 3500 // 2
+    if review_length > 3000:
+        half = 3000 // 2
         review_text = review_text[:half] + " ... " + review_text[-half:]
-    
-    print(len(review_text))
 
     return review_text

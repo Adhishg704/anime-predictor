@@ -72,7 +72,7 @@ def analyzeSentiment(request):
         elif len(reviews) == 0:
             return JsonResponse({"error": "No reviews for this anime"})
 
-        summary_list = []
+        sentiment_results = []
 
         for review in reviews:
             review_body = review.get('body', '')
@@ -80,10 +80,12 @@ def analyzeSentiment(request):
             preprocessed_review = preprocess.preprocess_review(review_body)
             summary = summarize_text(preprocessed_review)
 
-            summary_list.append(summary)
+            sentiment_results.append({
+                "summary": summary
+            })
 
         
-        return JsonResponse({"summary_list": summary_list}, status=200)
+        return JsonResponse({"sentiment_results": sentiment_results}, status=200)
             
 
     except(json.JSONDecodeError):
