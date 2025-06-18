@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   fetchAnimeMetadata,
   fetchAnimeReviews,
-  fetchReviewSummaries,
+  fetchReviewSummary,
 } from "../api/api.js";
 
 export const useAnimeMetaData = () => {
@@ -38,12 +38,26 @@ export const useAnimeReviewData = () => {
   const [animeSentimentList, setAnimeSentimentList] = useState(null);
 
   const loadAllAnimeReviewData = async (animeName) => {
+    setAnimeReviews(null);
+    setAnimeSentimentList(null);
+
     try {
       const reviews = await fetchAnimeReviews(animeName);
       setAnimeReviews(reviews.data.Media.reviews);
 
-      const summaries = await fetchReviewSummaries(reviews.data.Media.reviews);
-      setAnimeSentimentList(summaries.sentiment_results);
+      for(const review of reviews.data.Media.reviews.nodes) {
+        const response = await fetchReviewSummary(review);
+        const summary = response.summary;
+
+        setAnimeSentimentList((prev) => [
+          ...(prev || []),
+          {
+            "summary": summary
+          }
+        ]);
+
+        await delay(2000);
+      }
     } catch (err) {
       console.error(err);
     } 
@@ -55,3 +69,7 @@ export const useAnimeReviewData = () => {
     loadAllAnimeReviewData
   }
 }
+
+const delay = (ms) => new Promise((resolve) => {
+  setTimeout(resolve, ms);
+});

@@ -5,5 +5,5 @@ from .views import sentimentAnalysisView
 urlpatterns = [
     path('getAnimeMetadata/', getAnimeDetails.analyze, name = 'getAnimeMetaData'),
     path('getAnimeReviews/', sentimentAnalysisView.getReviews, name = 'getAnimeReviews'),
-    path('getReviewsSentiment/', sentimentAnalysisView.analyzeSentiment, name = 'getReviewSentiment')
+    path('getReviewSentiment/', sentimentAnalysisView.analyzeSentiment, name = 'getReviewSentiment')
 ]

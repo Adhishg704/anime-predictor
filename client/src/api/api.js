@@ -20,9 +20,9 @@ export const fetchAnimeReviews = async (animeName) => {
   return await response.json();
 }; 
 
-export const fetchReviewSummaries = async (reviews) => {
+export const fetchReviewSummary = async (reviews) => {
   const response = await fetch(
-    "http://127.0.0.1:8000/api/getReviewsSentiment/",
+    "http://127.0.0.1:8000/api/getReviewSentiment/",
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -30,6 +30,6 @@ export const fetchReviewSummaries = async (reviews) => {
     }
   );
 
-  if (!response.ok) throw new Error("Failed to fetch review summaries");
+  if (!response.ok) throw new Error("Failed to fetch review summary");
   return await response.json();
 };

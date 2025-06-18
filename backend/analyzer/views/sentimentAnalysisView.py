@@ -65,27 +65,15 @@ def getReviews(request):
 def analyzeSentiment(request):
     try:
         data = json.loads(request.body)
-        reviews = data.get('nodes')
+        review = data.get('body')
+        preprocessed_review = preprocess.preprocess_review(review)
 
-        if not reviews:
-            return JsonResponse({"error": "No reviews provided"})
-        elif len(reviews) == 0:
-            return JsonResponse({"error": "No reviews for this anime"})
+        if not review:
+            return JsonResponse({"error": "No review provided"})
 
-        sentiment_results = []
-
-        for review in reviews:
-            review_body = review.get('body', '')
-
-            preprocessed_review = preprocess.preprocess_review(review_body)
-            summary = summarize_text(preprocessed_review)
-
-            sentiment_results.append({
-                "summary": summary
-            })
-
+        review_summary = summarize_text(preprocessed_review)
         
-        return JsonResponse({"sentiment_results": sentiment_results}, status=200)
+        return JsonResponse({"summary": review_summary}, status=200)
             
 
     except(json.JSONDecodeError):
