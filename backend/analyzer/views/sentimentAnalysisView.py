@@ -17,7 +17,7 @@ headers = {
 
 
 @csrf_exempt
-def getReviews(request):
+def get_reviews(request):
     try:
         data = json.loads(request.body.decode('utf-8'))
         anime_name = data.get('anime', 'Attack on Titan')
@@ -62,7 +62,7 @@ def getReviews(request):
         return JsonResponse({'error': 'Invalid JSON'}, status = 400)
 
 @csrf_exempt
-def analyzeSentiment(request):
+def analyze_entiment(request):
     try:
         data = json.loads(request.body)
         review = data.get('body')
