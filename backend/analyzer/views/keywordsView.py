@@ -1,29 +1,48 @@
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from analyzer.utils import preprocess
-from rake_nltk import Rake
+import requests
 
 @csrf_exempt
 def extract_keywords(request):
     try:
-        data = json.loads(request.body)
-        review = data.get('body')
+        data = json.loads(request.body.decode('utf-8'))
+        anime_name = data.get('anime', 'Attack on Titan')
+        print(anime_name)
 
-        if not review:
-            return JsonResponse({"error": "No review provided"})
-
-        preprocessed_review = preprocess.basic_preprocess_review(review)
-        keywords = extract_keywords_rake(preprocessed_review)
+        if not anime_name:
+            return JsonResponse({'error': 'Anime name required'})
         
-        return JsonResponse({"keywords": keywords[:10]}, status=200)
-            
+        query = """
+        query($animeName: String) {
+            Media(search: $animeName, type: ANIME) {
+                tags {
+                    name
+                    rank
+                    isGeneralSpoiler
+                    isMediaSpoiler
+                }
+            }
+        }
+        """
 
+        url = "https://graphql.anilist.co"
+
+        variables = {
+            "animeName": anime_name
+        }
+
+        headers = {
+            "Content-Type": "application/json"
+        }
+
+        response = requests.post(url, json={'query': query, 'variables': variables}, headers=headers)
+
+        if response.status_code == 200:
+            return JsonResponse(response.json())
+        else:
+            return JsonResponse({'error': 'Failed to get reviews from anilist API'}, status = 500)
+
+        
     except(json.JSONDecodeError):
-        return JsonResponse({"error": "Invalid JSON format"}, status=400)
-
-
-def extract_keywords_rake(preprocessed_review):
-    rake =  Rake()
-    rake.extract_keywords_from_text(preprocessed_review)
-    return rake.get_ranked_phrases()
+        return JsonResponse({'error': 'Invalid JSON'}, status = 400)

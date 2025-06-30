@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import LoadingIndicator from "../components/LoadingIndicator";
 import ErrorMessage from "../components/ErrorMessage";
 import AnilistURLDisplay from "../components/AnilistURLDisplay";
 import InputSection from "../components/InputSection";
 import AnimeInfo from "../components/AnimeInfo";
 
-import { useAnimeMetaData, useAnimeReviewData } from "../hooks/useAnimeData.js";
+import { useAnimeMetaData, useAnimeReviewData, useAnimeKeywordsData } from "../hooks/useAnimeData.js";
 
 export function AnimeSentimentAnalyzer() {
   const [animeInput, setAnimeInput] = useState("");
@@ -25,15 +25,24 @@ export function AnimeSentimentAnalyzer() {
     loadAllAnimeReviewData
   } = useAnimeReviewData();
 
+  const {
+    animeKeywords,
+    resetKeywords,
+    loadAllAnimeKeywords
+  } = useAnimeKeywordsData();
+
   const handleSubmit = async () => {
     if (!animeInput.trim()) {
       return;
     }
 
+    resetKeywords();
+
     setLoading(true);
     setAnilistURL(`https://anilist.co/search/anime?search=${animeInput}`);
 
     await loadAllAnimeMetaData(animeInput);
+    await loadAllAnimeKeywords(animeInput);
     await loadAllAnimeReviewData(animeInput);
     setLoading(false);
   };
@@ -51,7 +60,7 @@ export function AnimeSentimentAnalyzer() {
         <LoadingIndicator loading={loading} />
         <ErrorMessage errorMsg={errorMsg} />
         <AnilistURLDisplay anilistURL={anilistURL} />
-        <AnimeInfo animeMetadata={animeInfo} animeReviews={animeReviews} animeSentimentList = {animeSentimentList} loading={loadingAnimeData}  />
+        <AnimeInfo animeMetadata={animeInfo} animeReviews={animeReviews} animeSentimentList = {animeSentimentList} animeKeywords = {animeKeywords} loading={loadingAnimeData}  />
       </div>
       <InputSection
         animeInput={animeInput}

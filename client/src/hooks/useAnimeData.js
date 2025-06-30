@@ -3,6 +3,7 @@ import {
   fetchAnimeMetadata,
   fetchAnimeReviews,
   fetchReviewSummary,
+  fetchReviewKeywords,
 } from "../api/api.js";
 
 export const useAnimeMetaData = () => {
@@ -45,7 +46,7 @@ export const useAnimeReviewData = () => {
       const reviews = await fetchAnimeReviews(animeName);
       setAnimeReviews(reviews.data.Media.reviews);
 
-      for(const review of reviews.data.Media.reviews.nodes) {
+      for (const review of reviews.data.Media.reviews.nodes) {
         const response = await fetchReviewSummary(review);
         const summary = response.summary;
 
@@ -60,7 +61,7 @@ export const useAnimeReviewData = () => {
       }
     } catch (err) {
       console.error(err);
-    } 
+    }
   };
 
   return {
@@ -73,3 +74,30 @@ export const useAnimeReviewData = () => {
 const delay = (ms) => new Promise((resolve) => {
   setTimeout(resolve, ms);
 });
+
+export const useAnimeKeywordsData = () => {
+  const [animeKeywords, setAnimeKeywords] = useState([]);
+
+  const loadAllAnimeKeywords = async (animeName) => {
+    const response = await fetchReviewKeywords(animeName);
+    const tags = response.data.Media.tags;
+
+    for (const tag of tags) {
+      if (!tag.isGeneralSpoiler && !tag.isMediaSpoiler) {
+        setAnimeKeywords((prev) => [
+          ...prev,
+          tag.name
+        ]);
+      }
+
+    }
+  };
+
+  const resetKeywords = () => { setAnimeKeywords([]) };
+
+  return {
+    animeKeywords,
+    resetKeywords,
+    loadAllAnimeKeywords
+  }
+}
