@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import requests
 
 @csrf_exempt
-def extract_keywords(request):
+def get_closest_anime(request):
     try:
         data = json.loads(request.body.decode('utf-8'))
         anime_name = data.get('anime', 'Attack on Titan')
@@ -14,12 +14,12 @@ def extract_keywords(request):
         
         query = """
         query($animeName: String) {
-            Media(search: $animeName, type: ANIME) {
-                tags {
-                    name
-                    rank
-                    isGeneralSpoiler
-                    isMediaSpoiler
+            Page(perPage: 5) {
+                media(search: $animeName, type: ANIME) {
+                    id
+                    title {
+                        english
+                    }
                 }
             }
         }
@@ -40,7 +40,7 @@ def extract_keywords(request):
         if response.status_code == 200:
             return JsonResponse(response.json())
         else:
-            return JsonResponse({'error': 'Failed to get reviews from anilist API'}, status = 500)
+            return JsonResponse({'response': response}, status = response.status_code)
 
         
     except(json.JSONDecodeError):

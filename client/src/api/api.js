@@ -47,3 +47,17 @@ export const fetchReviewKeywords = async (animeName) => {
   if (!response.ok) throw new Error("Failed to fetch review keywords");
   return await response.json();
 };
+
+export const fetchAutoCompleteSuggestions = async (animeName) => {
+  const response = await fetch(
+    "http://127.0.0.1:8000/api/getClosestAnime/",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({anime: animeName}),
+    }
+  );
+
+  if (!response.ok) throw new Error("Failed to fetch autocomplete suggestions");
+  return await response.json();
+};

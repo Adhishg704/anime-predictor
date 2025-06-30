@@ -4,13 +4,18 @@ import ErrorMessage from "../components/ErrorMessage";
 import AnilistURLDisplay from "../components/AnilistURLDisplay";
 import InputSection from "../components/InputSection";
 import AnimeInfo from "../components/AnimeInfo";
+import ToggleGridUi from "../components/ToggleGridUi.jsx";
 
 import { useAnimeMetaData, useAnimeReviewData, useAnimeKeywordsData } from "../hooks/useAnimeData.js";
+import ThreeByThreeGrid from "../components/ThreeByThreeGrid.jsx";
 
 export function AnimeSentimentAnalyzer() {
   const [animeInput, setAnimeInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [anilistURL, setAnilistURL] = useState("");
+  const [animeGrid, setAnimeGrid] = useState(Array(9).fill(""));
+
+  console.log(animeGrid);
 
   const {
     animeInfo,
@@ -62,6 +67,7 @@ export function AnimeSentimentAnalyzer() {
         <AnilistURLDisplay anilistURL={anilistURL} />
         <AnimeInfo animeMetadata={animeInfo} animeReviews={animeReviews} animeSentimentList = {animeSentimentList} animeKeywords = {animeKeywords} loading={loadingAnimeData}  />
       </div>
+      <ToggleGridUi animeGrid={animeGrid} setAnimeGrid={setAnimeGrid} />
       <InputSection
         animeInput={animeInput}
         setAnimeInput={setAnimeInput}
