@@ -3,11 +3,13 @@ from .views import getAnimeDetails
 from .views import sentimentAnalysisView
 from .views import keywordsView
 from .views import autoCompleteView
+from .views import comparisonView
 
 urlpatterns = [
     path('getAnimeMetadata/', getAnimeDetails.analyze, name = 'getAnimeMetaData'),
     path('getAnimeReviews/', sentimentAnalysisView.get_reviews, name = 'getAnimeReviews'),
     path('getReviewSentiment/', sentimentAnalysisView.analyze_entiment, name = 'getReviewSentiment'),
     path('getReviewKeywords/', keywordsView.extract_keywords, name = 'getReviewKeywords'),
-    path('getClosestAnime/', autoCompleteView.get_closest_anime, name = 'getClosestAnime')
+    path('getClosestAnime/', autoCompleteView.get_closest_anime, name = 'getClosestAnime'),
+    path('getSimilarityScore/', comparisonView.compare_anime, name = 'getSimilarityScore')
 ]

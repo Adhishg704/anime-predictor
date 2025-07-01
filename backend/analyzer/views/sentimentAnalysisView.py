@@ -28,7 +28,7 @@ def get_reviews(request):
         query = """
         query($animeName: String) {
             Media(search: $animeName, type: ANIME) {
-                reviews(sort: RATING_DESC) {
+                reviews(sort: RATING_DESC, perPage: 5) {
                     nodes {
                         rating
                         score

@@ -5,6 +5,7 @@ export default function InputSection({
   setAnimeInput,
   handleKeyDown,
   handleSubmit,
+  loading
 }) {
   return (
     <div className="p-5 flex items-center gap-4 bg-slate-700">
@@ -21,7 +22,7 @@ export default function InputSection({
       />
       <button
         className="bg-blue-600 font-mono text-white text-lg px-5 py-3 rounded-xl hover:bg-blue-500 transition duration-200"
-        onClick={handleSubmit}
+        onClick={!loading && handleSubmit}
       >
         Analyze
       </button>

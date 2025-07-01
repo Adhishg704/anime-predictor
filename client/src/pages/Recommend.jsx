@@ -6,7 +6,7 @@ import InputSection from "../components/InputSection";
 import AnimeInfo from "../components/AnimeInfo";
 import ToggleGridUi from "../components/ToggleGridUi.jsx";
 
-import { useAnimeMetaData, useAnimeReviewData, useAnimeKeywordsData } from "../hooks/useAnimeData.js";
+import { useAnimeMetaData, useAnimeReviewData, useAnimeKeywordsData, useAnimeComparisonWithThreeByThree } from "../hooks/useAnimeData.js";
 import ThreeByThreeGrid from "../components/ThreeByThreeGrid.jsx";
 
 export function AnimeSentimentAnalyzer() {
@@ -14,8 +14,6 @@ export function AnimeSentimentAnalyzer() {
   const [loading, setLoading] = useState(false);
   const [anilistURL, setAnilistURL] = useState("");
   const [animeGrid, setAnimeGrid] = useState(Array(9).fill(""));
-
-  console.log(animeGrid);
 
   const {
     animeInfo,
@@ -27,6 +25,7 @@ export function AnimeSentimentAnalyzer() {
   const {
     animeReviews,
     animeSentimentList,
+    resetReviewsAndSentimentList,
     loadAllAnimeReviewData
   } = useAnimeReviewData();
 
@@ -36,18 +35,31 @@ export function AnimeSentimentAnalyzer() {
     loadAllAnimeKeywords
   } = useAnimeKeywordsData();
 
+  const {
+    comparisonPercentageList,
+    resetComparisonPercentageList,
+    loadComparisonData
+  } = useAnimeComparisonWithThreeByThree();
+
   const handleSubmit = async () => {
     if (!animeInput.trim()) {
       return;
     }
 
     resetKeywords();
+    resetComparisonPercentageList();
+    resetReviewsAndSentimentList();
 
     setLoading(true);
     setAnilistURL(`https://anilist.co/search/anime?search=${animeInput}`);
 
     await loadAllAnimeMetaData(animeInput);
     await loadAllAnimeKeywords(animeInput);
+    
+    if(animeGrid?.length > 0) {
+      await loadComparisonData(animeInput, animeGrid);
+    }
+
     await loadAllAnimeReviewData(animeInput);
     setLoading(false);
   };
@@ -65,7 +77,7 @@ export function AnimeSentimentAnalyzer() {
         <LoadingIndicator loading={loading} />
         <ErrorMessage errorMsg={errorMsg} />
         <AnilistURLDisplay anilistURL={anilistURL} />
-        <AnimeInfo animeMetadata={animeInfo} animeReviews={animeReviews} animeSentimentList = {animeSentimentList} animeKeywords = {animeKeywords} loading={loadingAnimeData}  />
+        <AnimeInfo animeMetadata={animeInfo} animeReviews={animeReviews} animeSentimentList = {animeSentimentList} animeKeywords = {animeKeywords} comparisonPercentageList = {comparisonPercentageList} loading={loadingAnimeData}  />
       </div>
       <ToggleGridUi animeGrid={animeGrid} setAnimeGrid={setAnimeGrid} />
       <InputSection
@@ -73,6 +85,7 @@ export function AnimeSentimentAnalyzer() {
         setAnimeInput={setAnimeInput}
         handleKeyDown={handleKeyDown}
         handleSubmit={handleSubmit}
+        loading ={loading}
       />
     </div>
   );

@@ -4,6 +4,7 @@ import {
   fetchAnimeReviews,
   fetchReviewSummary,
   fetchReviewKeywords,
+  fetchComparisonPercentage
 } from "../api/api.js";
 
 export const useAnimeMetaData = () => {
@@ -64,9 +65,15 @@ export const useAnimeReviewData = () => {
     }
   };
 
+  const resetReviewsAndSentimentList = () => {
+    setAnimeReviews(null);
+    setAnimeSentimentList(null);
+  }
+
   return {
     animeReviews,
     animeSentimentList,
+    resetReviewsAndSentimentList,
     loadAllAnimeReviewData
   }
 }
@@ -99,5 +106,40 @@ export const useAnimeKeywordsData = () => {
     animeKeywords,
     resetKeywords,
     loadAllAnimeKeywords
+  }
+}
+
+export const useAnimeComparisonWithThreeByThree = () => {
+  const [comparisonPercentageList, setComparisonPercentageList] = useState([]);
+
+  const loadComparisonData = async (animeName, threeByThreeAnime) => {
+    const analyzedKeywordsResponse = await fetchReviewKeywords(animeName);
+    const analyzedKeywords = analyzedKeywordsResponse.data.Media.tags.map((tag) => ({"name": tag.name, "rank": tag.rank}));
+
+    for(const anime of threeByThreeAnime) {
+      if(anime === "") {
+        continue;
+      }
+      const favoriteAnimeKeywordsResponse = await fetchReviewKeywords(anime);
+      const favoriteAnimeKeywords = favoriteAnimeKeywordsResponse.data.Media.tags.map((tag) => ({"name": tag.name, "rank": tag.rank}));
+
+      const comparisonPercentageResponse = await fetchComparisonPercentage(analyzedKeywords, favoriteAnimeKeywords);
+
+      setComparisonPercentageList((prev) => [
+        ...prev,
+        {
+          anime,
+          similarity: comparisonPercentageResponse.similarity
+        }
+      ]);
+    }
+  }
+
+  const resetComparisonPercentageList = () => { setComparisonPercentageList([]) };
+
+  return {
+    comparisonPercentageList,
+    resetComparisonPercentageList,
+    loadComparisonData
   }
 }
