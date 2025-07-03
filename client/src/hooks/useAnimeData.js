@@ -129,7 +129,8 @@ export const useAnimeComparisonWithThreeByThree = () => {
         ...prev,
         {
           anime,
-          similarity: comparisonPercentageResponse.similarity
+          similarity: comparisonPercentageResponse.similarity,
+          top_3_tags: comparisonPercentageResponse.top_3_tags
         }
       ]);
     }

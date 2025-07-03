@@ -17,9 +17,11 @@ def compare_anime(request):
                 return JsonResponse({"error": "Tags of both anime are required"}, status=400)
 
             similarity_score = weighted_cosine_similarity(anime_1_tags, anime_2_tags)
+            top_3_tags = get_top_3_tags(anime_1_tags, anime_2_tags)
 
             return JsonResponse({
-                "similarity": similarity_score
+                "similarity": similarity_score,
+                "top_3_tags": top_3_tags
             })
         
         except Exception as e:
@@ -39,20 +41,27 @@ def normalize_ranks_and_amplify(tags):
     return {tag["name"]: (tag["rank"] / max_rank)**2 for tag in tags}
 
 
-def weighted_cosine_similarity(tags1, tags2):
+def get_all_tags(tags1, tags2):
     tag_score_map1 = normalize_ranks_and_amplify(tags1)
     tag_score_map2 = normalize_ranks_and_amplify(tags2)
+    all_tags = sorted(list(set(tag_score_map1.keys()) | set(tag_score_map2.keys())))
+    return all_tags
 
-    all_tags = set(tag_score_map1.keys()) | set(tag_score_map2.keys())
+
+def get_np_vector(tag_score_map, all_tags):
+    vec = [tag_score_map.get(tag, 0) for tag in all_tags]
+    np_vec = np.array(vec)
+    return np_vec
+
+
+def weighted_cosine_similarity(tags1, tags2):
+    all_tags = get_all_tags(tags1, tags2)
 
     if not all_tags:
         return 0.0
 
-    vec1 = [tag_score_map1.get(tag, 0) for tag in all_tags]
-    vec2 = [tag_score_map2.get(tag, 0) for tag in all_tags]
-
-    np_vec1 = np.array(vec1)
-    np_vec2 = np.array(vec2)
+    np_vec1 = get_np_vector(normalize_ranks_and_amplify(tags1), all_tags)
+    np_vec2 = get_np_vector(normalize_ranks_and_amplify(tags2), all_tags)
 
     dot_product = np.dot(np_vec1, np_vec2)
 
@@ -65,3 +74,20 @@ def weighted_cosine_similarity(tags1, tags2):
     cosine_score = dot_product / (norm_vec1 * norm_vec2)
 
     return round(cosine_score * 100, 2)
+
+
+def get_top_3_tags(tags1, tags2):
+    all_tags = get_all_tags(tags1, tags2)
+    np_vec_1 = get_np_vector(normalize_ranks_and_amplify(tags1), all_tags)
+    np_vec_2 = get_np_vector(normalize_ranks_and_amplify(tags2), all_tags)
+
+    individual_products = np_vec_1 * np_vec_2
+
+    tag_contributions = []
+    for i, product in enumerate(individual_products):
+        if product > 0:
+            tag_contributions.append((all_tags[i], product))
+    
+    sorted_tags = sorted(tag_contributions, key=lambda x: x[1], reverse=True)
+    top_3_tags = [tag for (tag, product) in sorted_tags][:3]
+    return top_3_tags
