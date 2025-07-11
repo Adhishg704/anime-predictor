@@ -4,14 +4,19 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from sklearn.metrics.pairwise import cosine_similarity
 
+GENERIC_TAGS = {
+    "Male Protagonist",
+    "Female Protagonist",
+}
+
 
 @csrf_exempt
 def compare_anime(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            anime_1_tags = data.get('analyzed_anime_tags')
-            anime_2_tags = data.get('favorite_anime_tags')
+            anime_1_tags = filter_generic_tags(data.get('analyzed_anime_tags'))
+            anime_2_tags = filter_generic_tags(data.get('favorite_anime_tags'))
 
             if not anime_1_tags or not anime_2_tags:
                 return JsonResponse({"error": "Tags of both anime are required"}, status=400)
@@ -28,6 +33,10 @@ def compare_anime(request):
             return JsonResponse({"error": str(e)}, status=500)
     
     return JsonResponse({"error": "Request type should be post"})
+
+
+def filter_generic_tags(tags):
+    return [tag for tag in tags if tag["name"] not in GENERIC_TAGS]
 
 
 def normalize_ranks_and_amplify(tags):

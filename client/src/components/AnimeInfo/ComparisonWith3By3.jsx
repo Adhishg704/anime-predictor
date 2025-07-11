@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 
 const getSimilaritySlab = (percentage) => {
-  if (percentage <= 20) {
+  if (percentage < 20) {
     return { label: 'Low Similarity', color: 'text-red-500', bgColor: 'bg-red-900/20', borderColor: 'border-red-700' };
-  }
-  else if (percentage < 50) {
+  } else if (percentage < 30) {
     return { label: 'Moderate Similarity', color: 'text-yellow-500', bgColor: 'bg-yellow-900/20', borderColor: 'border-yellow-700' };
-  }
-  else {
+  } else if (percentage < 50) {
     return { label: 'High Similarity', color: 'text-green-500', bgColor: 'bg-green-900/20', borderColor: 'border-green-700' };
+  } else {
+    return { label: 'Very High Similarity', color: 'text-teal-500', bgColor: 'bg-teal-900/20', borderColor: 'border-teal-700' };
   }
 }
-
 
 export default function ComparisonWith3By3({ animeName, comparisonPercentageList }) {
   if (!comparisonPercentageList || comparisonPercentageList.length === 0) {
@@ -30,7 +29,7 @@ export default function ComparisonWith3By3({ animeName, comparisonPercentageList
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {comparisonPercentageList.map((entry, index) => {
-          const { label, color, bgColor, borderColor } = getSimilaritySlab(entry.similarity)
+          const { label, color, bgColor, borderColor } = getSimilaritySlab(entry.similarity);
 
           return (
             <div
@@ -39,7 +38,8 @@ export default function ComparisonWith3By3({ animeName, comparisonPercentageList
             >
               <h3 className="text-lg font-medium mb-2">{entry.anime}</h3>
               <p className="text-white">
-                Similarity: <span className={`font-bold ${color}`}>{entry.similarity?.toFixed(2)}%</span>
+                Similarity:{' '}
+                <span className={`font-bold ${color}`}>{entry.similarity?.toFixed(2)}%</span>
                 <span className={`ml-2 text-xs ${color}`}>({label})</span>
               </p>
               <TopTagsSection similarityLabel={label} topTags={entry.top_3_tags} />
@@ -51,12 +51,13 @@ export default function ComparisonWith3By3({ animeName, comparisonPercentageList
   );
 }
 
-
 function TopTagsSection({ similarityLabel, topTags }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const getTagExplanation = (label) => {
     switch (label) {
+      case 'Very High Similarity':
+        return "These tags are extremely prominent in both anime profiles, indicating an exceptional overlap.";
       case 'High Similarity':
         return "These tags are highly prominent in both anime profiles, indicating a strong connection.";
       case 'Moderate Similarity':
