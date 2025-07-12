@@ -4,6 +4,7 @@ from .views import sentimentAnalysisView
 from .views import keywordsView
 from .views import autoCompleteView
 from .views import comparisonView
+from .views import healthCheckView
 
 urlpatterns = [
     path('getAnimeMetadata/', getAnimeDetails.analyze, name = 'getAnimeMetaData'),
@@ -11,5 +12,6 @@ urlpatterns = [
     path('getReviewSentiment/', sentimentAnalysisView.analyze_entiment, name = 'getReviewSentiment'),
     path('getReviewKeywords/', keywordsView.extract_keywords, name = 'getReviewKeywords'),
     path('getClosestAnime/', autoCompleteView.get_closest_anime, name = 'getClosestAnime'),
-    path('getSimilarityScore/', comparisonView.compare_anime, name = 'getSimilarityScore')
+    path('getSimilarityScore/', comparisonView.compare_anime, name = 'getSimilarityScore'),
+    path('getSimilarityScore/', healthCheckView.health_check, name = 'getHealthStatus')
 ]
