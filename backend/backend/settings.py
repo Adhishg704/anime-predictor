@@ -55,6 +55,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://anime-analyzer-l9j3.vercel.app"
 ]
 
 ROOT_URLCONF = 'backend.urls'
