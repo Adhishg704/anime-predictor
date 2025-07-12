@@ -1,4 +1,16 @@
-An app that fetches realtime reviews from the well known anime website https://anilist.co/ and performs sentiment analysis on those reviews returning a score for each review,
-an aggregated score at the end calculated on giving higher liked reviews more importance as well as the primary characters of the anime and the total number of their mentions
-across all reviews. ReactJS used for frontend, puppeteer used for web scraping the reviews from the website and connected to the front end by the REST Express API and NodeJS.
-Python's natural language processing capabilities used for sentiment analysis and integrated with React through Django and a REST API.
+# 🧠 Anime Analyzer
+
+An intelligent anime analysis tool that fetches real-time data from AniList, performs sentiment analysis on user reviews, and provides similarity score between analyzed anime and your favorite anime.
+
+### 🚀 Features
+- Real-time anime data via AniList GraphQL API
+- Review summary of top 5 reviews(DistilBERT)
+- Score distribution, top tags, and gender-based favorites breakdown
+- 3x3 anime grid similarity matching using cosine similarity
+
+### 🛠️ Tech Stack
+- **Frontend:** ReactJS
+- **Backend:** Python (Django)
+- **NLP:** Hugging Face Transformers, NLTK
+- **Similarity:** Cosine similarity on tag vectors
+- **Data:** AniList GraphQL API
