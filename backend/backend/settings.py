@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2vzs2^an1xj*y4jkl!+h%%7#+enp9+46$48ry+nhenwf77^wbn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['anime-analyzer-backend.onrender.com']
 
 
 # Application definition
