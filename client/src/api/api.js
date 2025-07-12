@@ -1,5 +1,7 @@
+const API = import.meta.env.VITE_API_BASE_URL;
+
 export const fetchAnimeMetadata = async (animeName) => {
-  const response = await fetch("http://127.0.0.1:8000/api/getAnimeMetadata/", {
+  const response = await fetch(`${API}/api/getAnimeMetadata/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ anime: animeName }),
@@ -10,7 +12,7 @@ export const fetchAnimeMetadata = async (animeName) => {
 };
 
 export const fetchAnimeReviews = async (animeName) => {
-  const response = await fetch("http://127.0.0.1:8000/api/getAnimeReviews/", {
+  const response = await fetch(`${API}/api/getAnimeReviews/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ anime: animeName }),
@@ -22,7 +24,7 @@ export const fetchAnimeReviews = async (animeName) => {
 
 export const fetchReviewSummary = async (review) => {
   const response = await fetch(
-    "http://127.0.0.1:8000/api/getReviewSentiment/",
+    `${API}/api/getReviewSentiment/`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -36,7 +38,7 @@ export const fetchReviewSummary = async (review) => {
 
 export const fetchReviewKeywords = async (animeName) => {
   const response = await fetch(
-    "http://127.0.0.1:8000/api/getReviewKeywords/",
+    `${API}/api/getReviewKeywords/`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -50,7 +52,7 @@ export const fetchReviewKeywords = async (animeName) => {
 
 export const fetchAutoCompleteSuggestions = async (animeName) => {
   const response = await fetch(
-    "http://127.0.0.1:8000/api/getClosestAnime/",
+    `${API}/api/getClosestAnime/`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -64,7 +66,7 @@ export const fetchAutoCompleteSuggestions = async (animeName) => {
 
 export const fetchComparisonPercentage = async (analyzedKeywords, favoriteAnimeKeywords) => {
   const response = await fetch(
-    "http://127.0.0.1:8000/api/getSimilarityScore/",
+    `${API}/api/getSimilarityScore/`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
