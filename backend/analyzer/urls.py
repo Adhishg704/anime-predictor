@@ -13,5 +13,5 @@ urlpatterns = [
     path('getReviewKeywords/', keywordsView.extract_keywords, name = 'getReviewKeywords'),
     path('getClosestAnime/', autoCompleteView.get_closest_anime, name = 'getClosestAnime'),
     path('getSimilarityScore/', comparisonView.compare_anime, name = 'getSimilarityScore'),
-    path('getSimilarityScore/', healthCheckView.health_check, name = 'getHealthStatus')
+    path('health/', healthCheckView.health_check, name = 'getHealthStatus')
 ]
