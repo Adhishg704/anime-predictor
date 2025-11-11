@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import { fetchAutoCompleteSuggestions } from "../api/api.js";
 
-export default function AutoCompleteInput({ value, onChange }) {
+export default function AutoCompleteInput({
+    value,
+    onChange,
+    placeholder = "Start typing...",
+    inputClassName = "",
+    containerClassName = "",
+    autoFocus = false
+}) {
     const [query, setQuery] = useState(value || "");
     const [suggestions, setSuggestions] = useState([]);
     const [active, setActive] = useState(false);
@@ -38,11 +45,13 @@ export default function AutoCompleteInput({ value, onChange }) {
     };
 
     return (
-        <div className="relative w-full">
+        <div className={`relative w-full ${containerClassName}`}>
             <input
-                className="p-2 rounded bg-slate-700 text-white border border-slate-600 w-full"
+                autoFocus={autoFocus}
+                className={`p-3 rounded bg-slate-600 text-white border border-slate-500 w-full 
+                           focus:border-blue-400 outline-none text-lg ${inputClassName}`}
                 type="text"
-                placeholder="Start typing..."
+                placeholder={placeholder}
                 value={query}
                 onChange={(e) => {
                     setQuery(e.target.value);

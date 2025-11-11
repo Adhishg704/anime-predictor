@@ -9,7 +9,7 @@ from analyzer.utils import preprocess
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '../../.env'))
 
 HF_TOKEN = os.getenv("HF_TOKEN")
-SUMMARY_API_URL = "https://api-inference.huggingface.co/models/sshleifer/distilbart-cnn-12-6"
+SUMMARY_API_URL = "https://router.huggingface.co/hf-inference/models/sshleifer/distilbart-cnn-12-6"
 
 headers = {
     "Authorization": f"Bearer {HF_TOKEN}"

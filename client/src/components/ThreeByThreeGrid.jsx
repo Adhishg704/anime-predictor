@@ -17,6 +17,7 @@ export default function ThreeByThreeGrid({ animeGrid, setAnimeGrid }) {
                         key={index}
                         value={val}
                         onChange={(val) => handleChange(index, val)}
+                        placeholder={`Anime ${index + 1}`}
                     />
                 ))}
             </div>
