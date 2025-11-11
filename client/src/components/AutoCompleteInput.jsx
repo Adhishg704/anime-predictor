@@ -61,7 +61,7 @@ export default function AutoCompleteInput({
                 onBlur={() => setTimeout(() => setActive(false), 150)}
             />
             {active && suggestions.length > 0 && (
-                <ul className="absolute z-10 w-full bg-white text-black border border-slate-300 rounded max-h-40 overflow-y-auto">
+                <ul className="absolute bottom-full mb-1 z-10 w-full bg-white text-black border border-slate-300 rounded max-h-40 overflow-y-auto">
                     {suggestions.map((title, i) => (
                         <li
                             key={i}
